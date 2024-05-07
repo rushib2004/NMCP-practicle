@@ -1,0 +1,39 @@
+import numpy as np
+from numpy import linalg as LA
+
+# Input section
+M1 = np.array([[14], [56]])
+M2 = np.array([[1, -4], [3, -2]])
+
+# Output section
+
+# Matrix Addition
+print("[M1] + [M2] =", M1 + M2)
+
+# Matrix Subtraction
+print("[M1] - [M2] =", M1 - M2)
+
+# Matrix Multiplication
+try:
+    M_mul = np.dot(M1, M2)
+    print("[M1] [M2] =", M_mul)
+except ValueError:
+    print("Matrix multiplication not possible due to mismatched dimensions.")
+
+# Matrix Transpose
+print("Transpose of [M2] =", M2.transpose())
+
+# Matrix Inverse (for square matrices only)
+try:
+    M1_inv = np.linalg.inv(M1)
+    print("Inverse of [M1] =", M1_inv)
+except np.linalg.LinAlgError:
+    print("Inverse of [M1] does not exist because it's not a square matrix.")
+
+# Matrix Eigen Values and Vectors
+try:
+    w, v = LA.eig(M1)
+    print("Eigen Values of [M1] =", w)
+    print("Eigen Vectors of [M1] =", v)
+except np.linalg.LinAlgError:
+    print("Eigenvalues and eigenvectors cannot be computed for non-square matrices.")
