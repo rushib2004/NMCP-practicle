@@ -1,0 +1,32 @@
+# Program for Descartes' Rule of Signs f(x) = - 2x ^ 3 + x ^ 2 - x + 5
+
+# Coefficients of the polynomial
+y1 = [-2, 1, -1, 5]
+
+# Number of terms in the polynomial
+n = 4
+
+print('f(x) is:')
+print(y1)
+
+# Count the number of sign changes in the coefficients
+cnt1 = 0
+for i in range(0, n - 1):
+    if (y1[i] * y1[i + 1] < 0):
+        cnt1 += 1
+
+print('Number of positive roots:', cnt1)
+
+# Create the polynomial for f(-x)
+y2 = [-y for y in y1]
+
+print('f(-x) is:')
+print(y2)
+
+# Count the number of sign changes in the coefficients of f(-x)
+cnt2 = 0
+for i in range(0, n - 1):
+    if (y2[i] * y2[i + 1] < 0):
+        cnt2 += 1
+
+print('Number of negative roots:', cnt2)
