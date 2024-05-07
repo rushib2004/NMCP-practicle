@@ -1,0 +1,34 @@
+import numpy as np
+import math
+
+# Input section
+
+n = int(input("Enter number of entries: "))
+t1 = list(map(float, input("Enter time at which voltage is recorded (msec): ").strip().split()))
+Vc = list(map(float, input("Enter the voltage across capacitor (volts): ").strip().split()))
+T = float(input("Enter time at which V0 is required: "))
+
+t = np.array(t1)
+Vc1 = np.array(Vc)
+h = t1[1] - t1[0]
+
+# Difference table calculation
+dVc = []
+dVc.append(Vc1[0])
+
+for i in range(1, n):
+    diff = np.diff(Vc1)
+    dVc.append(Vc1[i])
+
+print(dVc)
+
+# Implementation of Newton Forward Formula
+sum = dVc[0]
+u = (T - t1[0]) / h
+n = len(dVc)
+for k in range(1, n):
+    m = math.factorial(k)
+    sum += ((u - (k - 1)) / m) * dVc[k]
+
+# Output section
+print("At time {:.2f}, Voltage across capacitor Vc = {:.2f}".format(T, sum))
