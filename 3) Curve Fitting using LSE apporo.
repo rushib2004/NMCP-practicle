@@ -1,0 +1,26 @@
+import numpy as np
+
+# Input Section
+n = int(input("Enter number of readings: "))
+Vc = list(map(float, input("Enter the voltage across capacitor (volts): ").strip().split()))[:]
+t = list(map(float, input("Enter time at which voltage is recorded (msec): ").strip().split()))[:n]
+
+t1 = np.array(t)
+Vc1 = np.array(Vc)
+
+# Process
+Sxx = np.sum(t1**2)
+Sx = np.sum(t1)
+Sx2 = np.sum(t1**3)
+Sx3 = np.sum(t1**4)
+Sy = np.sum(Vc1)
+Sxy = np.sum(t1 * Vc1)
+Sx2y = np.sum(t1**2 * Vc1)
+
+X = np.array([[Sxx, Sx, n], [Sx2, Sx, Sx2], [Sx3, Sx2, Sx3]])
+Y = np.array([[Sy], [Sxy], [Sx2y]])
+
+Cof = np.dot(np.linalg.inv(X), Y)
+
+# Output Section
+print("The best fit equation is Vc = {:.3f}t^2 + {:.3f}t + {:.3f}".format(Cof[0, 0], Cof[1, 0], Cof[2, 0]))
