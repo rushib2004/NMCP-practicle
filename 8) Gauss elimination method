@@ -1,0 +1,65 @@
+# Function to swap two rows in the matrix
+def swap_row(mat, i, j):
+    for k in range(N + 1):
+        temp = mat[i][k]
+        mat[i][k] = mat[j][k]
+        mat[j][k] = temp
+
+# Function to perform forward elimination to reduce the matrix to row echelon form
+def forwardElim(mat):
+    for k in range(N):
+        # Find maximum value and index for pivot
+        imax = k
+        v_max = abs(mat[k][k])  # Corrected variable name and added abs function
+        for i in range(k + 1, N):
+            if abs(mat[i][k]) > v_max:
+                v_max = abs(mat[i][k])
+                imax = i
+        
+        # If a principal diagonal element is zero, the matrix is singular
+        if mat[k][k] == 0:  # Corrected the condition for singularity
+            return k  # Matrix is singular
+        
+        # Swap the greatest value row with the current row if necessary
+        if imax != k:
+            swap_row(mat, k, imax)
+        
+        for i in range(k + 1, N):
+            # Calculate the factor to set current row kth element to 0
+            f = mat[i][k] / mat[k][k]
+            # Subtract fth multiple of corresponding kth row element
+            for j in range(k + 1, N + 1):
+                mat[i][j] -= mat[k][j] * f
+            # Fill lower triangular matrix with zeros
+            mat[i][k] = 0
+
+# Function to perform back substitution to find the solution
+def backSub(mat):
+    x = [None for _ in range(N)]  # An array to store the solution
+    for i in range(N-1, -1, -1):
+        x[i] = mat[i][N]
+        for j in range(i + 1, N):
+            x[i] -= mat[i][j] * x[j]
+        x[i] = x[i] / mat[i][i]
+    print("\nSolution for the system:")
+    for i in range(N):
+        print("{:.8f}".format(x[i]))
+
+# Gaussian Elimination method
+def gaussianElimination(mat):
+    singular_flag = forwardElim(mat)
+    if singular_flag != -1:
+        print("Singular Matrix.")
+    elif mat[singular_flag][N] != 0:
+        print("Inconsistent System.")
+    else:
+        print("May have infinitely many solutions.")
+    backSub(mat)
+
+# Input matrix
+N = 3  # Size of the matrix
+mat = [[1.0, 3.0, 2.0, 5.0],
+       [2.0, 4.0, -6.0, -4.0],
+       [1.0, 5.0, 3.0, 10.0]]
+
+gaussianElimination(mat)
